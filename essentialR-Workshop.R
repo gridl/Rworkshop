@@ -661,6 +661,15 @@ ggplot(runs,aes(x=Start.Date,y=Runs)) + geom_line(colour="darkgrey") +
   geom_smooth(method="loess") + ggtitle("Tendulkar's moving average of runs") +
   theme(plot.title = element_text(size=16, face="bold",hjust=0.5))
 
+
+a <- PlantGrowth %>% select(weight,group) %>% group_by(group) %>%
+    summarize(meanWeight=mean(weight),stdWeight=sd(weight))
+    
+
+ggplot(a,aes(x=group,y=meanWeight,fill=group)) + geom_bar(stat="identity") +
+    ggtitle("Group vs Mean Weight with Error bar") + xlab("Group") + ylab("Mean Weight") +
+    geom_errorbar(width=.1, aes(ymin=meanWeight-stdWeight, 
+                                ymax=meanWeight+stdWeight))
 #######################Package quantmod  ###
 #install.packages("quantmod")
 library(quantmod)
