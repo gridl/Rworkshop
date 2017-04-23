@@ -595,8 +595,29 @@ ggplot(tendulkar,aes(x=Runs,y=BF))+ geom_point() + geom_smooth(method="loess") +
   theme(plot.title = element_text(size=16, face="bold",hjust=0.5))
 
 
+# Using dplyr and ggplot2
+tendulkar1 <- tendulkar %>% group_by(Opposition) %>% summarise(meanRuns= mean(Runs)) %>%
+    arrange(desc(meanRuns))
+head(tendulkar1,10)
+
+ggplot(tendulkar1,aes(x=Opposition,y=meanRuns,fill=Opposition)) + geom_bar(stat="identity")
+
+# Rework this to reorder from biggest to smallest and title and labels 
+ggplot(tendulkar1,aes(x=reorder(Opposition,-meanRuns),y=meanRuns,fill=Opposition)) + 
+    geom_bar(stat="identity") +
+    ggtitle("Tendulkar's Mean Runs against opposition") +
+    xlab("Opposition") + ylab("Mean Runs")
+
+#Q13. Create a barplot of Tendulkar's mean runs inm different grounds
+
+#Q14 Compute and list the mean Runs and standard deviation  against opposition
+
 ## Going back to the Iris example
 names(iris)
+# Rename columns, if needed, to something more is easy to refer to
+colnames(iris) <- c("lengthOfSepal","widthOfSepal","lengthOfPetal","widthOfPetal","Species")
+colnames(iris)
+
 setosa <- iris %>% filter(Species == "setosa")
 pairs(setosa)
 a <- setosa %>% select(lengthOfSepal,widthOfSepal)
@@ -605,7 +626,8 @@ plot(a$lengthOfSepal,a$widthOfSepal,xlab="Length of Sepal",ylab="Width of Sepal"
 l <-lm(a$widthOfSepal~a$lengthOfSepal)
 abline(l,lty=5,lwd=3,col="blue")
 
-
+#
+str(iris)
 # This can be with ggplot as follows for all species
 ggplot(iris,aes(x=lengthOfSepal,y=widthOfSepal,colours=Species)) + geom_point() +
   geom_smooth(method="loess") + facet_wrap(~Species) +
