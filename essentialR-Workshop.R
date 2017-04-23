@@ -466,26 +466,28 @@ fit
 summary(fit)
 abline(fit,lty=5,lwd=3,col="blue")
 
-#Another way to draw this
-p <- predict(lm(tendulkar$Runs ~tendulkar$BF))
-val <- seq(1,327)
-lines(a,p,type="l",col="blue")
 
 #Fitting a 2nd order polynomial
 #Fit a 2nd order polynomial
 # Here Runs = a0 + a1 * BF + a2 * BF^2
-fit <- lm(tendulkar$Runs~poly(tendulkar$BF,2))
+fit <- lm(tendulkar$Runs~poly(tendulkar$BF,2,raw=TRUE))
 
-#Create a prediction interval with 99% confidence
-predicted.intervals <- predict(fit,data.frame(x=tendulkar$BF),interval='confidence',
-                               level=0.95)
-head(predicted.intervals,5)
-lines(tendulkar$BF,predicted.intervals[,1],col='red',lwd=1)
+xx <- seq(from=0,to = max(tendulkar$BF),by=20)
+yy <- NULL
+for (i in seq_along(xx)) {
+    yy[i] <- fit$coefficients[3] * xx[i]^2 + fit$coefficients[2] * xx[i] + fit$coefficients[1] 
+    
+}
+
+lines(xx,yy,col="red",lwd=2.0)
+
+
 
 
 # Q7, Plot the distribution of Minutes in crease and Runs Scored
 # Q8 Fit a linear regression line
-# Q9. Create a multivariate regression of Runs scored vs Balls Faced + Mins at Crease
+# Q9. Create a 2nd order polynomial between Runs scored and 4s
+# Q10. Create a multivariate regression of Runs scored vs Balls Faced + Mins at Crease
 #Here
 # Runs = a0 + a1 * BF + a2 * Mins
 fit <- lm(tendulkar$Runs ~tendulkar$BF + tendulkar$Min)
@@ -493,9 +495,13 @@ fit
 
 
 #Plot the histogram of runs for Tendulkar
-hist(tendulkar$Runs, main="Tendulkar's frequency of runs vs  run ranges",
+df = tendulkar
+hist(df$Runs, main="Tendulkar's frequency of runs vs  run ranges",
      xlab="Runs")
 
+abline(v=median(df$Runs),col="blue",lwd=3.0)
+#Q11 Add a red line showing the mean runs for Tendulkar
+abline(v=mean(df$Runs),col="red",lwd=3.0)
 
 # A look package dplyr. One of the most useful package for manipulating data in
 # data frames
@@ -525,12 +531,32 @@ head(df2,5)
 # Also as
 # df2 <- tendulkar %>% filter(Runs>50 & Runs < 101)
 
+tendulkar <- tendulkar %>% filter(Runs != "DNB")
+dim(a)
+
+#Q12 
+b <-  tendulkar %>% filter(Runs != "TDNB")
+dim(b)
+
+#Q13 Remove rows for which Tendulkar was "absent"
+tendulkar <- tendulkar %>% filter(Runs != "absent")
+#Finally we remove '*' as before
+tendulkar$Runs <- as.numeric(gsub("\\*","",tendulkar$Runs))
+
+# Get only complete cases as before
+c <- complete.cases(tendulkar)
+tendulkar <- tendulkar[c,]
+dim(tendulkar)
+
 # There are more interesting conditions with which you can filter and select rows
 # columns. Check with ?select & ?filter
 
 # Use the arrange function to arrange columns in descending order of Runs
 descRuns <- arrange(tendulkar,desc(Runs))
 head(descRuns)
+
+#Create a new column with Strike rate
+tendulkar <- tendulkar %>% mutate(SR=(Runs/BF)*100)
 
 
 # The Pipe function is extremely useful in dplyr
