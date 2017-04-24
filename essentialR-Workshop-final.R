@@ -49,15 +49,13 @@ seq(6,43,by=7)
 # This is useful when we want 7 equal intervals between 6 & 43
 seq(6,43,length=7)
 
-#A useful command is 'which' which returns the index where a value(s) are found
 myvector <- c(1,2,4,5,8,4, 10,12)
 which(myvector ==4)
-#################################################################################
 
 #Q1. Create a vector 'a' starting and 5 and ending at 50 and incremented by 5
 #Q2. Create a vector 'b' starting at 7 and ending at 25, with a length of 10
 
-#################################################################################
+
 ###3.  Matrices
 # generates 5 x 4 numeric matrix
 y<-matrix(1:20, nrow=5,ncol=4)
@@ -104,14 +102,15 @@ a <- myvector[ myvector>10]
 # To leave out a particular value of vector use the index with "-" sign
 myvector[-2]
 
-#################################################################################
 # Let a <- seq(1,20,by=1)
-# Q3. Create vector 'c' where every element is an even number. 
-#Note: Modulo operation is %%
-
+# Q3. Create vector 'c' where every element is an even number. Note: Modulo operation is %%
+a <- seq(1,20,by=1)
+b <- a%%2==0
+c <- a[b]
 
 # Q4. Create a vector 'd' from myvector which leaves out the 1st, 3rd and 5th value
-#################################################################################
+d <- myvector[c(-1,-3,-5)]
+d
 
 # Subset based on substring
 m <- c("about","aboard","board","bus","cat","abandon")
@@ -205,10 +204,15 @@ a
 #Similarly subset
 c <- mtcars[a,]
 c
-#################################################################################
+
 #Q5. Subset all rows for which the disp is >200
+a <- mtcars$disp > 200
+a
+mtcars[a,]
+
 #Q6. Find all cars which are 6 cylinder 'cyl'
-#################################################################################
+cyl6 <- mtcars$cyl == 6
+mtcars[cyl6,]
 
 # There are other ways of hanlding dataframes which will be shown below
 #####################################################################################
@@ -273,10 +277,19 @@ product(13,18)
 
 ##############################################################################
 #Q.7. Create a function that raises a number to the 5th power
-#Q.8. Create a function that takes mtcar and cyl as input and display all rows
+power5 <- function(n){
+     a <-n^5
+     a
+}
+#Q8. Create a function that takes mtcar and cyl as input and display all rows
 # with this combination
-#############################################################################
 
+carsCyl <- function(df,numcyl){
+  a <- df$cyl == numcyl
+  mtcars[a,]
+}
+#######################################################################
+#
 ##########################################################################################
 
 ### Accessing elements in a dataframe
@@ -288,7 +301,7 @@ class(iris)
 
 # Create a new data frame from iris. Iris is a small plant.
 # See https://en.wikipedia.org/wiki/Iris_(plant)
-iris
+df <- iris
 #or we can use iris dataframe as is
 
 # Check the size of the data
@@ -301,16 +314,14 @@ head(iris)
 str(iris)
 
 # Check the column names of iris
-colnames(iris) #or names(iris)
+colnames(iris) or # names(iris)
 
-
+``
 #Check the class***
 sapply(iris,class)
 
-# Get a feel of the data. useful only if all columns are numeric
+# Get a feel of the data
 summary(iris)
-
-# The str command is more useful than summary command
 str(iris)
 
 # Inspect the data. Display top 6 and bottom 6 of the dataframe
@@ -329,7 +340,10 @@ iris[1:5,]
 
 ##############################################################################
 #Q9.  Display all rows and columns 2,3,5 of iris
+cols <- c(2,3,5)
+iris[,cols]
 #Q10. Display all rows and columns 2:4 of iris
+iris[,2:4]
 ##############################################################################
 #Column names
 colnames(iris)
@@ -391,12 +405,8 @@ dev.off()
 # A useful function to to check how data looks is the pairs function
 # This function will take pairs of columns and do a scatter plot.
 pairs(iris)
-# Compute the correlation
-#Length of Petal is positively correlated to width of Petal and length of Sepal
-cor(iris[,1:4])
 
 #Q6, Draw a box plot of mpg and displ from mtcars
-head(mtcars,5)
 par(mfrow=c(1,2)) # Set 2 rows x 2 columns
 par(mar=c(4,4,2,2)) # Set the margins
 boxplot(mtcars$mpg,main="Miles per gallon")
@@ -407,6 +417,7 @@ plot(iris$widthOfSepal,iris$lengthOfSepal)
 plot(iris$widthOfSepal,iris$lengthOfSepal,
      main="Iris - Length of Sepal vs Width of Sepal", xlab="Sepal Width",
      ylab="Sepal length")
+
 ########################################Cleaning data ##############################################
 
 # The problem with the IRIS data set is that it is neat and tidy.
@@ -615,16 +626,17 @@ p
 ggplot(tendulkar,aes(x=Runs,y=BF))+ geom_point() +
   xlab("Runs") + ylab("Balls Faced") + ggtitle("Tendulkar - Runs vs Balls Faced")
 
-# Fit a smoothed regression line
+# Fir a smoothed regression line
 ggplot(tendulkar,aes(x=Runs,y=BF))+ geom_point() + geom_smooth(method="loess") +
   xlab("Runs") + ylab("Balls Faced") + ggtitle("Tendulkar - Runs vs Balls Faced") +
   theme(plot.title = element_text(size=16, face="bold",hjust=0.5))
 
 
 # Using dplyr and ggplot2
-tendulkar1 <- tendulkar %>% group_by(Opposition) %>% summarise(meanRuns= mean(Runs)) %>%
-    arrange(desc(meanRuns))
-head(tendulkar1,10)
+ggplot(tendulkar1,aes(x=reorder(Opposition,-meanRuns),y=meanRuns,fill=Opposition)) + 
+  geom_bar(stat="identity") +
+  ggtitle("Tendulkar's Mean Runs against opposition") +
+  xlab("Opposition") + ylab("Mean Runs")
 
 ggplot(tendulkar1,aes(x=Opposition,y=meanRuns,fill=Opposition)) + geom_bar(stat="identity")
 
@@ -634,11 +646,31 @@ ggplot(tendulkar1,aes(x=reorder(Opposition,-meanRuns),y=meanRuns,fill=Opposition
     ggtitle("Tendulkar's Mean Runs against opposition") +
     xlab("Opposition") + ylab("Mean Runs")
 
-############################################################################
+##############################################################################
 #Q13. Create a barplot of Tendulkar's mean runs inm different grounds
+tendulkar1 <- tendulkar %>% group_by(Ground) %>% summarise(meanRuns= mean(Runs)) %>%
+  arrange(desc(meanRuns))
+top10 <- head(tendulkar1,10)
+ggplot(top10,aes(x=reorder(Ground,-meanRuns),y=meanRuns,fill=Ground)) + 
+  geom_bar(stat="identity") +
+  ggtitle("Tendulkar's Mean Runs in Grounds") +
+  xlab("Grounds") + ylab("Mean Runs")
 
 #Q14 Compute and list the mean Runs and standard deviation  against opposition
-################################################################################
+tendulkar1 <- tendulkar %>% group_by(Opposition) %>% 
+  summarise(meanRuns= mean(Runs),sdRuns=sd(Runs)) %>%
+  arrange(desc(meanRuns))
+top10 <- head(tendulkar1,10)
+top10
+ggplot(top10,aes(x=reorder(Opposition,-meanRuns),y=meanRuns,fill=Opposition)) + 
+  geom_bar(stat="identity") +
+  geom_errorbar(width=.1, aes(ymin=meanRuns-sdRuns, 
+                              ymax=meanRuns+sdRuns)) +
+  ggtitle("Tendulkar's Mean Runs against opposition") +
+  xlab("Opposition") + ylab("Mean Runs")
+
+
+############################################################################################
 
 ## Going back to the Iris example
 names(iris)
@@ -647,7 +679,6 @@ colnames(iris) <- c("lengthOfSepal","widthOfSepal","lengthOfPetal","widthOfPetal
 colnames(iris)
 
 setosa <- iris %>% filter(Species == "setosa")
-#Correlation between columns
 pairs(setosa)
 a <- setosa %>% select(lengthOfSepal,widthOfSepal)
 plot(a$lengthOfSepal,a$widthOfSepal,xlab="Length of Sepal",ylab="Width of Sepal",
@@ -699,5 +730,15 @@ ggplot(a,aes(x=group,y=meanWeight,fill=group)) + geom_bar(stat="identity") +
     ggtitle("Group vs Mean Weight with Error bar") + xlab("Group") + ylab("Mean Weight") +
     geom_errorbar(width=.1, aes(ymin=meanWeight-stdWeight, 
                                 ymax=meanWeight+stdWeight))
+#######################Package quantmod  ###
+#install.packages("quantmod")
+library(quantmod)
+
+
+toCurrency <- c("INR","SGD","JPY","NZD")
+fromcurrency <- c("USD")
+b<- getQuote(paste0(fromcurrency, toCurrency, "=X"))
+xchg <- b$Last
+xchg
 
 
