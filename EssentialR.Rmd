@@ -19,6 +19,8 @@ So we can easily write statements without defining or declaring variables and th
 anywhere in the line, and continue onto the next line, There is no continuation character as in other
 langiuages, no statement delimiters. As long as you end a line with an operator you can continue 
 on to the next line. Also in R, the assignment is the "<-"
+
+###Variable types
 ```{r}
 c <- 5.26  # No variable definitions or declarations
 a <- 5 * 3 +    # No line continuation character, no statement delimiters
@@ -45,5 +47,113 @@ class(y)
 
 ```
 
+###Vectors
+An important R type is the vector. In a vector all elements are of the same type. If for example
+you add a character variable to a numeric vector myvector2 as shown below, then myvector2 will become
+a character vector
+```{r}
+#2.  Vectors - All elements of same type
+myvector <- c(1,2,4,5,8,10,12)
+myvector
+myvector <- 2:12
+myvector
+charVector <- c("one","two","three") # character vector
+charVector
+myvector2 <- c(5,7,9,12)
+class(myvector2)
+myvector2 <-c(myvector2,"the")
+class(myvector2)
+class(myvector2[1])
+```
 
+###Sequences
+Vectors can also be created by using the "seq" command. The utility of sequences may not be immediately
+apprarent, nevertheless they are very important and you will be forced to create and use
+sequences in your code.
+```{r}
+# Creating vectors with sequences. In the example below, the sequence starts at 5 and ends at 50 with
+# an increment of 5
+myvector <- seq(5,50,by=5)
+myvector
+
+# Create a sequence between 6 & 43 with a period length of 7
+seq(6,43,by=7)
+
+# This is useful when we want 7 equal intervals between 6 & 43
+seq(6,43,length=7)
+
+```
+
+
+###Repeating sequences
+Repeating sequences can be created b
+```{r}
+a <- rep(5:9,times=3)
+a
+b <- rep(3:7,len=2)
+b
+```
+# Q a<- 5.4
+# What is the class of a?
+# Let a <- seq(2:7,by=3)
+# Let b <- c(a,"boy")
+#Q What is the class of a & b
+#Q Create a sequence from 12 to 200 and increment by 8
+#Q Create a sequence from 8 to 51 and create 9 equally space numbers between them
+#Q Create a repeating sequence from 3 to 7 and repeat it thrice
+
+
+One of the nice things about R is that you can get help on R functions while coding without
+going to Google, as long as you have installed the package in your environment. You can access
+help on any specific topic/R function by typing ?<function> or help(<function>)
+```{r}
+# Get help on any topic using '?'
+?seq
+
+# or
+help(seq)
+
+```
+
+A useful command is 'which' which returns the index where a value(s) are found
+```{r}
+
+myvector <- c(1,2,4,5,8,4, 10,12)
+which(myvector ==4)
+```
+
+# Q a<- 5.4
+# What is the class of a?
+# Let a <- seq(2:7,by=3)
+# Let b <- c(a,"boy")
+#Q What is the class of a & b
+#Q Create a sequence from 12 to 200 and increment by 8
+#Q Create a sequence from 8 to 51 and create 9 equally space numbers between them
+#Q Create a repeating sequence from 3 to 7 and repeat it thrice
+#Q Check the help of 'rep' comand. What does the 'len' parameter indicate?
+
+#### Matrix,lists and dataframes
+```{r}
+#################################################################################
+###3.  Matrices
+# generates 5 x 4 numeric matrix
+y<-matrix(1:20, nrow=5,ncol=4)
+class(y)
+
+
+###4. Lists - Elements can be dissimilar
+w <- list(name="Fred", mynumbers=charVector, mymatrix=y, age=5.3)
+w
+
+##5. Data frames
+#A data frame is more general than a matrix, in that different columns can have different mode
+d <- c(1,2,3,4)
+e <- c("red", "white", "red", NA)
+f <- c(TRUE,TRUE,TRUE,FALSE)
+mydataframe <- data.frame(d,e,f)
+names(mydataframe) <- c("ID","Color","Passed") # variable names
+mydataframe
+class(mydataframe)
+
+```
 
