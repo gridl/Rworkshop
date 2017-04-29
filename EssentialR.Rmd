@@ -1,0 +1,49 @@
+---
+title: "Essential R"
+author: "Tinniam V Ganesh"
+date: "April 29, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Introduction
+
+##R basic
+R is a very friendly lanuguage and flexible in many ways. While programming purists could complain 
+that R is too weakly types, but I think this lack of rigitidy allows one to be productive.
+
+So we can easily write statements without defining or declaring variables and their types. We can start
+anywhere in the line, and continue onto the next line, There is no continuation character as in other
+langiuages, no statement delimiters. As long as you end a line with an operator you can continue 
+on to the next line. Also in R, the assignment is the "<-"
+```{r}
+c <- 5.26  # No variable definitions or declarations
+a <- 5 * 3 +    # No line continuation character, no statement delimiters
+     2/6
+a
+      c <- 4 + 2.679 +    # Start anywhere and continue to the next line by ending the line with an operator
+                 23*7/8
+c
+```
+The main vaiable types are 
+
+a) Character
+b) numeric
+
+You can check the variable type by using the "class" command. This is a very useful command
+and often times we may need to check the variable type before trying to use it in computaion/plots etc.
+```{r}
+x<- "Hello world" # Can also use x= "Hello World"
+x
+class(x)
+y<-2.5
+y
+class(y)
+
+```
+
+
+

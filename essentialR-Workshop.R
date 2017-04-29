@@ -412,21 +412,17 @@ plot(iris$widthOfSepal,iris$lengthOfSepal,
 # The problem with the IRIS data set is that it is neat and tidy.
 # Lets look at some real world data
 
-library(RCurl)
-# Lets look at some real world dat
-tendulkar <- read.csv("https://raw.githubusercontent.com/tvganesh/cricketr/master/data/tendulkar.csv")
-dim(tendulkar)
-?write.csv
-write.csv(tendulkar,file="tendulkar1.csv",row.names = FALSE)
+
 # The following call does not convert strings in the data frame as factors
 # Also remove records which do not have values 'na.strings" where the
 # NA (not available) strings can be "NA" or "-"
 #Check the help of read.csv
 ?read.csv
-tendulkar= read.csv("tendulkar1.csv",stringsAsFactors = FALSE,na.strings=c(NA,"-"))
+tendulkar= read.csv("tendulkar.csv",stringsAsFactors = FALSE,na.strings=c(NA,"-"))
 summary(tendulkar)
 str(tendulkar)
 colnames(tendulkar)
+dim(tendulkar)
 
 #Display top 5 and bottom 5 rows
 head(tendulkar)
@@ -452,7 +448,7 @@ tendulkar <- tendulkar[d,]
 dim(tendulkar)
 
 # Remove the "* indicating not out
-tendulkar$Runs <- as.numeric(gsub("\\*","",tendulkar$Runs))
+tendulkar$Runs <- gsub("\\*","",tendulkar$Runs)
 View(tendulkar)
 dim(tendulkar)
 
@@ -557,17 +553,22 @@ head(df2,5)
 # Also as
 # df2 <- tendulkar %>% filter(Runs>50 & Runs < 101)
 
+# Using dplyr to clean the Tendulkar dataframe
+tendulkar= read.csv("tendulkar.csv",stringsAsFactors = FALSE,na.strings=c(NA,"-"))
+dim(tendulkar)
 tendulkar <- tendulkar %>% filter(Runs != "DNB")
-dim(a)
+dim(tendulkar)
 
 #Q12 
-b <-  tendulkar %>% filter(Runs != "TDNB")
-dim(b)
+tendulkar <-  tendulkar %>% filter(Runs != "TDNB")
+dim(tendulkar)
 
 #Q13 Remove rows for which Tendulkar was "absent"
 tendulkar <- tendulkar %>% filter(Runs != "absent")
 #Finally we remove '*' as before
-tendulkar$Runs <- as.numeric(gsub("\\*","",tendulkar$Runs))
+tendulkar$Runs <- gsub("\\*","",tendulkar$Runs)
+class(tendulkar$Runs)
+tendulkar$Runs <- as.numeric(tendulkar$Runs)
 
 # Get only complete cases as before
 c <- complete.cases(tendulkar)
@@ -579,10 +580,11 @@ dim(tendulkar)
 
 # Use the arrange function to arrange columns in descending order of Runs
 descRuns <- arrange(tendulkar,desc(Runs))
+class(tendulkar$Runs)
 head(descRuns)
 
 #Create a new column with Strike rate
-tendulkar <- tendulkar %>% mutate(SR=(Runs/BF)*100)
+tendulkar <- tendulkar %>% mutate(StrikeRate=(Runs/BF)*100)
 
 
 # The Pipe function is extremely useful in dplyr
