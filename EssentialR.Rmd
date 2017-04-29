@@ -18,11 +18,13 @@ that R is too weakly types, but I think this lack of rigitidy allows one to be p
 So we can easily write statements without defining or declaring variables and their types. We can start
 anywhere in the line, and continue onto the next line, There is no continuation character as in other
 langiuages, no statement delimiters. As long as you end a line with an operator you can continue 
-on to the next line. Also in R, the assignment is the "<-"
+on to the next line. Also in R, the assignment is the "<-". Also when we write the variable on a 
+separate line R displays the value of the element as can be seen in the 2nd line below
 
 ###Variable types
 ```{r}
 c <- 5.26  # No variable definitions or declarations
+c    # Display the value of c
 a <- 5 * 3 +    # No line continuation character, no statement delimiters
      2/6
 a
@@ -133,20 +135,28 @@ which(myvector ==4)
 #Q Check the help of 'rep' comand. What does the 'len' parameter indicate?
 
 #### Matrix,lists and dataframes
+
+Matrices
+Matrices can be created as shown below with 5 rows and 4 columns
 ```{r}
-#################################################################################
-###3.  Matrices
 # generates 5 x 4 numeric matrix
 y<-matrix(1:20, nrow=5,ncol=4)
 class(y)
+```
 
-
-###4. Lists - Elements can be dissimilar
+Lists
+In lists the elements can be dissimilar. The list belowhas the following objects
+a) Character variable b) character vector c) matrix and 4) numeric varaible
+```{r}
 w <- list(name="Fred", mynumbers=charVector, mymatrix=y, age=5.3)
 w
+```
 
 ##5. Data frames
-#A data frame is more general than a matrix, in that different columns can have different mode
+A data frame is the most common data types in R. Most data analysis is done on dataframes.
+Dataframes can be thought of as Excel sheets with rows  and columns. Each column can be of
+a different type but all elements in the column must be of the same type.
+```{r}
 d <- c(1,2,3,4)
 e <- c("red", "white", "red", NA)
 f <- c(TRUE,TRUE,TRUE,FALSE)
@@ -154,6 +164,63 @@ mydataframe <- data.frame(d,e,f)
 names(mydataframe) <- c("ID","Color","Passed") # variable names
 mydataframe
 class(mydataframe)
-
 ```
 
+###Subsetting
+One of the most important operations that you will most often use in R is subsetting i.e.
+we need to get a small subset of a vector, list, matrix or a dataframe. It is very important to
+understand how to do this.
+1. Subsetting vectors
+```{r}
+myvector <- seq(2,20,by=2)
+myvector
+```
+
+Get the 4 element in my vector. Note in R the indices start from 1 to N and 0 to N-1 as is
+common in C,C++,Java or Python.
+```{r}
+myvector[4]
+```
+
+Get a range of elements, specifically get all elements from the 3rd to 7th
+```{r}
+s <- myvector[3:7]
+s
+```
+Subset based on a condition
+Get all elements of myvector which are greater than 10
+Here the fist statement creates a logical vector 'b' which is series of True and False. The logical
+vector 'b' is used to subset myvector in the 3rd line to get the elements that are >10> The logical
+vector 'b' is used as index to 'a' to get all elements > 10.
+
+```{r}
+b <- myvector>10
+b
+a <- myvector[b]
+a
+```
+
+It is possible to Combine both in a single statement as shown below
+```{r}
+a <- myvector[ myvector>10]
+```
+
+
+Sometimes we may need to leave out a particular elements of a vector for e.g we would like
+all elements except the 2nd element. In this case we can use the '-index' as below
+```{r}
+myvector[-2]
+```
+
+Subsetting a character vector. Here we subset based on a substring. In the code below
+m is a character vector. We subset 'm' using the grep funvtion. This creates 'a' which is a
+logical vector. We can then use this logical vector as an index to subset all elements
+whicc contain the string "ab"
+m <- c("about","aboard","board","bus","cat","abandon")
+a <- grep("ab",m)
+a
+# String with "ab"
+containsAB <- m[a]
+#Or
+containsAB <- m[grep("ab",m)]
+containsAB
