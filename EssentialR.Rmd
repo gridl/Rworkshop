@@ -283,16 +283,35 @@ y[2,3]
 Included below are some key matrix operations. R has several packages that deal with matrices
 for various analysis. Some of the main operations are shpown below
 
+```{r}
 A <- matrix(1:9,nrow=3,ncol=3)
-
 B <- matrix(seq(5,10,length=9),nrow=3,ncol=3)
-#### Matrix operations
-# C = A*B                    # Element wise multiplication
-# C = A %*% B                # Matrix multiplication
+```
 
-#3. Subsetting lists
+### Some key matrix operations
+
+```{r}
+# Matrix addition
+C <- A+B
+C
+# Matrix subtraction
+C <- A -B
+C
+#Element wise matrix multiplication
+C = A*B                   
+C
+#Matrix multiplication
+C = A %*% B 
+C
+```
+
+
+###3. Subsetting lists
+Lists can be subsetted using an index and a souble square bracket
+```{r}
 w <- list(name="Fred", mynumbers=charVector, mymatrix=y, age=5.3)
 w
+
 
 # To access an object in a list , use [[]]e.g
 w[[2]]
@@ -303,35 +322,50 @@ b=w[[3]]
 b
 #
 b[2,3]
+```
 
-#4. Subsetting dataframes
-# R comes with already available data frames with which you can do any data science with
-data()
-attach(mtcars)
+###4. Subsetting dataframes
+To know how to subset data frames is extremely important because by and large you will be working
+on subsetting dataframes. So do try to understand how to do this.R comes with already available 
+data frames with which you can do any data science with data()
+In the example below the in-built dataframe mtcars will be used for showing to subset dataframes
 
+```{r}
 head(mtcars,3)
 # We can subset like matrices
 # Dataframe 'df' are subsetted as
-#df[row,column] or df[row vector,column vector]
-# If the row/row vector is not included then it means all rows
-# Similarly if the column/column vector is not included then it means all columns
+#df[row,column] 
+mtcars[2,3]
+
+# We can also subset by providing the row & column vectors as  df[row vector,column vector]
 mtcars[2:5,3:6]
 
+
+# If the row/row vector is not included then it means all rows
 #Get all rows but only columns 3 to 7
 mtcars[,3:7]
 
+
+# If the column/column vector is not included then it means all rows
 # Get all columns for rows 2 to 5
 mtcars[2:5,]
+```
 
-#Get the column names of dataframe
+To check the column names of a dataframe we can either use names() or colnames()
+```{r}
 names(mtcars)
 colnames(mtcars)
+```
 
-#To access a specific column
+To access a specific column by name use the <dataframe>$<columnname>
+```{r}
 mtcars$mpg
+```
 
-# Subset all rows where mpg >15.0
+We can also subset based on a specific condition. To subset all rows of dataframe where mpg >15.0
+we can use
 # Find all rows where mpg >15
+```{r}
 a <- mtcars$mpg>15
 a
 
@@ -339,51 +373,67 @@ a
 # the column empty
 b <- mtcars[a,]
 b
+```
 
-# Can also create compound conditions where 15 >mpg > 25
+To subset on a compound condition we Can also write and assign the output to a logical vector 
+a. We can then subset all rows based on this logical vector.
+```{r}
 a <- mtcars$mpg>15 & mtcars$mpg <25
 a
 
-#Similarly subset
+# Subset using the logical vector 'a' and select all columns (no column vector)
 c <- mtcars[a,]
 c
+
+```
 #################################################################################
 #Q5. Subset all rows for which the disp is >200
 #Q6. Find all cars which are 6 cylinder 'cyl'
 #################################################################################
 
-# There are other ways of hanlding dataframes which will be shown below
+# There are other ways of handling dataframes which will be shown below
 #####################################################################################
-#C. A list of operations commonly used
-# Get the current working directory
+###C. Some common directory and file handling commands
+Get the current working directory
+```{r}
 getwd()
 
 #Set the working directory. Note the forward slash
-setwd("/home/rstudio/R")
+setwd("C:/software/R")
 getwd()
+
+# Go up one directory
 setwd("..")
 
-#Check the directory. Also possible to use Session -> Set Working Directory-><dir>
+#Check this directory
 getwd()
 
-# Show objects
+# Show all objects in the environment
 ls()
 
-# Remove  object
-rm("x")
+# Remove  a specific object
+rm("myvector")
 
-#Remove all objects
+#Remove all objects. This is a particularly useful command. We need this so that we can start
+# with a clean slate and don't have variables left by some previous operations
 rm(list=ls())
 
 #Show contents of dir
 dir()
 
 # Other useful commands
-#dir.create("testdir")                   # Create a directory
-#file.create("myTest.R")                 # Create a file
-#file.exists("mytest.R")                 # Check if file exists
-#file.rename("mytest.R","mytest2.R")     # Rename a file
+# Create a directory
+dir.create("testdir")  
 
+# Create a file
+file.create("myTest.R")  
+
+#Check if file exists
+file.exists("mytest.R")  
+
+# Rename a file
+file.rename("mytest.R","mytest2.R")     #
+```
 # To print an object
 myvector <- seq(2,20,by=2)
 myvector
