@@ -588,21 +588,35 @@ iris[1:5,]
 #Q10. Display all rows and columns 2:4 of iris
 ##############################################################################
 #Column names
+As before we can check the column names 
+```{r}
 colnames(iris)
+```
 
-# Rename columns, if needed, to something more is easy to refer to
+To rename columns,  we use the same function 'colnames' but we assign to it a character vector as shown
+```{r}
 colnames(iris) <- c("lengthOfSepal","widthOfSepal","lengthOfPetal","widthOfPetal","Species")
 colnames(iris)
+```
 
-
+Now if we view the dataframe the column names would have been changed
+```{r}
 View(iris)
+```
 
-# Other ways of subsetting the data
+Here are a few other ways of subsetting the data. We can directly refer to a column in a dataframe by using
+the df$<column name> to refer to an entire column
+```{r}
 iris$Species
+```
 
-# Subset all rows which have "setosa" as the Species
-#Also note that to refer to a column we need to use the '$' symbol
+Now that we can refer to a specific column in a dataframe we can subset on specific values in the column
+For e.g. we can subset all rows which have "setosa" as the Species. Below we use '==' sign to check
+if the species is 'setosa' and we asign the output of this logical operation to a logical vector 'a'. If we display the value of 'a' we see that it is a logical vector containing TRUE & FALSE
+```{r}
 a <- iris$Species == "setosa"
+a
+```
 
 # This gives the rows for which species is 'setosa'
 a
