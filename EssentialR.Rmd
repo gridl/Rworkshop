@@ -30,6 +30,11 @@ a <- 5 * 3 +    # No line continuation character, no statement delimiters
 a
       c <- 4 + 2.679 +    # Start anywhere and continue to the next line by ending the line with an operator
                  23*7/8
+```
+
+#Note: In R we can display the value of a variable, matrix, dataframe by typing it on a separate
+line in the R console as below
+```{r}
 c
 ```
 The main vaiable types are 
@@ -397,50 +402,73 @@ c
 Get the current working directory
 ```{r}
 getwd()
+```
 
 #Set the working directory. Note the forward slash
+```{r}
 setwd("C:/software/R")
 getwd()
+```
 
-# Go up one directory
+# Go up one directory and then the current directory
+```{r}
 setwd("..")
 
 #Check this directory
 getwd()
+```
 
 # Show all objects in the environment
+```{r}
 ls()
-
-# Remove  a specific object
+```
+# Remove  a specific object for e.g. 'myvector which was created earlier
+```{r}
 rm("myvector")
+```
 
 #Remove all objects. This is a particularly useful command. We need this so that we can start
 # with a clean slate and don't have variables left by some previous operations
+```{r}
 rm(list=ls())
+```
 
 #Show contents of dir
+```{r}
 dir()
+```
 
 # Other useful commands
 # Create a directory
+```{r}
 dir.create("testdir")  
-
+```
 # Create a file
+```{r}
 file.create("myTest.R")  
+```
 
 #Check if file exists
-file.exists("mytest.R")  
+```{r}
+file.exists("mytest.R") 
+```
 
 # Rename a file
-file.rename("mytest.R","mytest2.R")     #
+```{r}
+file.rename("mytest.R","mytest2.R")     
 ```
 # To print an object
+```{r}
 myvector <- seq(2,20,by=2)
 myvector
 myvector
 print(myvector)
+```
 
 # For loops
+There are 2 ways to write for loops. However one should 'for' loops if possible as 'for' loops
+are very performance intensive. try to use vectors instead of 'for' loops wherever possible
+```{r}
 for(i in 1:10){
   print(i*5)
 }
@@ -448,20 +476,25 @@ for(i in 1:10){
 for(i in seq_along(myvector)){
   print(myvector[i])
 }
+```
 
 # In R avoid for loops if possible. Try to use the while vector using sapply,lapply,tapply
 # instead of for loops. for loops are very performance intensive to vector operations
 
 
 ### R functions. To create a function
-# This is how a function is defined
+# This is how a function is defined. The return value is usually made the last statement of the function. In the function below the return is the value 'c'
+```{r}
 product <- function(a, b){
   c <- a*b
   c
 }
-
+```
+#Invoke the function
+```{r}
 product(7,12)
 product(13,18)
+```
 
 ##############################################################################
 #Q.7. Create a function that raises a number to the 5th power
@@ -475,49 +508,80 @@ product(13,18)
 # There are several datasets available that comes with R
 # The Dataframe is a tabular form of data with many rows and columns. The
 # type of data can vary from column to column but are the same in each column
+```{r}
 data()
 class(iris)
+```
 
 # Create a new data frame from iris. Iris is a small plant.
 # See https://en.wikipedia.org/wiki/Iris_(plant)
+# Display the iris dataframe by typing it on a separate line
+```{r}
 iris
-#or we can use iris dataframe as is
+```
 
-# Check the size of the data
+
+# Check the size of the data. This is a very important command and you will be using it very often
+```{r}
 dim(iris)
+```
 
 #Check the 1st few rows of the data frame
+```{r}
 head(iris)
+```
 
-# A more useful command to check the type of a dataframe is***
+A very useful command to check the type of a dataframe is. The 'str' command lists the
+columns in the dataframe, their type and also displays a few representative values from each
+column
+```{r}
 str(iris)
+```
 
-# Check the column names of iris
-colnames(iris) #or names(iris)
+We could also use the 'summary' command to get an overall view of dataframe.However the 'str' command
+is more powerful than the 'summary' command
 
-
-#Check the class***
-sapply(iris,class)
-
-# Get a feel of the data. useful only if all columns are numeric
+```{r}
 summary(iris)
+```
 
-# The str command is more useful than summary command
-str(iris)
+To check the column names of iris we cause one of the following. They are both same
 
-# Inspect the data. Display top 6 and bottom 6 of the dataframe
+```{r}
+colnames(iris) 
+
+#or 
+names(iris)
+```
+
+We often need to check the class of every column. We could do this one by one or simply use
+```{r}
+sapply(iris,class)
+```
+
+To inspect the data. Display top 6 and bottom 6 of the dataframe
+```{r}
 head(iris,6)
 tail(iris,6)
+```
 
-#Subset data
-#1. Display 1-6 rows and 2-4 columns
+
+###Subset data
+1. Display 1-6 rows and 2-4 columns. This similar to how we subsetted the matrix
+We can use df[row,column] or df[row vector, column vector]
+```{r}
 iris[1:6,2:4]
+```
 
-#2. Display all rows  for columns 1:3
+2. Display all rows  for columns 1:3. If the row/row vector is omitted then display all rows
+```{r}
 iris[,1:3]
+```
 
-#3. Display all columns for rows 1:5
+3. Display all columns for rows 1:5. If the column/column vector is omitted then display all columns
+```{r}
 iris[1:5,]
+```
 
 ##############################################################################
 #Q9.  Display all rows and columns 2,3,5 of iris
