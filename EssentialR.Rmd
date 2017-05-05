@@ -666,25 +666,38 @@ documentation for a boxplot type ?boxplot
 ?boxplot
 ```
 
+Create a bixplot for the length of the sepal column of the Iris dataframe. The title of the plot requires the
+use of the 'main=' argument
+```{r}
 boxplot(b$lengthOfSepal,main="Length of Sepal")
+```
 
-# To get all 4 plots in a 2 x 2 matrix setup.Draw all 4 plots
+
+Often we may need to display a boxplot for all the 4 numerical column vectors of Iris namely - widthOfSepal, lengthOfSepal, widthOfPetal & lengthOfPetal. The way to do this is to use the 'par' function with the 'mfrow' which specifies that we would like  4 plots in a 2 x 2 matrix setup.Draw all 4 plots. The 'mar=' parameter indicates the margins
+```{r}
 par(mfrow=c(2,2)) # Set 2 rows x 2 columns
 par(mar=c(4,4,2,2)) # Set the margins
 boxplot(b$lengthOfSepal,main="Length of Sepal")
 boxplot(b$widthOfSepal,main="Width of Sepal")
 boxplot(b$lengthOfPetal,main="Length of Petal")
 boxplot(b$widthOfPetal,main="Width of Petal")
+```
 
-# Reset the display with the following call. Otherwise you will get a 2 x 2 plots
+Reset the display with the following call. Otherwise you will get a 2 x 2 plots
+```{r}
 dev.off()
+```
 
-# A useful function to to check how data looks is the pairs function
-# This function will take pairs of columns and do a scatter plot.
+A useful function to to check how data looks is the pairs function.This function will take pairs of columns and do a scatter plot. This will tell us how the columns are correlated
+```{r}
 pairs(iris)
-# Compute the correlation
+```
+
+R also provides a way to compute the correlation numerically as follows
 #Length of Petal is positively correlated to width of Petal and length of Sepal
+```{r}
 cor(iris[,1:4])
+```
 
 #Q6, Draw a box plot of mpg and displ from mtcars
 head(mtcars,5)
