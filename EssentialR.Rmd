@@ -10,6 +10,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 #Introduction
+## About R
+## Installing R and R Studio
 
 ##R basic
 R is a very friendly lanuguage and flexible in many ways. While programming purists could complain 
@@ -286,7 +288,7 @@ y[2,3]
 
 ###Matrix operations
 Included below are some key matrix operations. R has several packages that deal with matrices
-for various analysis. Some of the main operations are shpown below
+for various analysis. Some of the main operations are shown below
 
 ```{r}
 A <- matrix(1:9,nrow=3,ncol=3)
@@ -618,32 +620,51 @@ a <- iris$Species == "setosa"
 a
 ```
 
-# This gives the rows for which species is 'setosa'
+If we display the value of 'a' we see that it is a logical vector containing TRUE & FALSE
+```{r}
 a
+```
 
-
-#Subset these rows. The "," indicates include all colums for these rows
+Subset these rows. The "," indicates include all colums for these rows. Here for the row vector we use the
+logical vector and we leave the column vector indicating we will require all columns
+```{r}
 b <- iris[a,]
+```
 
+Check the dimemsion ofthe 'b' dataframe
+```{r}
 dim(b)
 b
+```
 
+Using other functions on a column We can refer to the column of a dataframe by using '$' sign
+```{r}
 colnames(b)
-
 b$widthOfSepal
-# Compute the mean
+```
+
+Compute the mean and standard deviation of the Width of the sepal as below
+
+```{r}
 meanSepal <- mean(b$widthOfSepal)
 meanSepal
 sdSepal <- sd(b$widthOfSepal)
 sdSepal
+```
 
-# A useful function is sapply which can compute a function across a list
-m <- sapply(b[1:4],mean)
+
+A very useful function is 'sapply' with which can apply  a function across vectors. In the R statement below
+we have 4 column vectors of iris and we apply the function 'mean' to each  of these column vectors
+```{r}
+m <- sapply(iris[1:4],mean)
 m
+```
 
-
-#Plot the values of any columm. The box plot is useful
+To  take a quick look at a specific column the box plot is particulary useful. To take a look at the 
+documentation for a boxplot type ?boxplot
+```{r}
 ?boxplot
+```
 
 boxplot(b$lengthOfSepal,main="Length of Sepal")
 
