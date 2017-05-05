@@ -700,21 +700,32 @@ cor(iris[,1:4])
 ```
 
 #Q6, Draw a box plot of mpg and displ from mtcars
+```{r}
 head(mtcars,5)
 par(mfrow=c(1,2)) # Set 2 rows x 2 columns
 par(mar=c(4,4,2,2)) # Set the margins
 boxplot(mtcars$mpg,main="Miles per gallon")
 boxplot(mtcars$disp,main="Displacement")
 dev.off()
+```
 
+Make a regular scatter plot using the R base plotting function plot(x,y)
+```{r}
 plot(iris$widthOfSepal,iris$lengthOfSepal)
+```
+
+To this plot add the x-axis & y-axis labels along with the title of the plot
+```{r}
 plot(iris$widthOfSepal,iris$lengthOfSepal,
      main="Iris - Length of Sepal vs Width of Sepal", xlab="Sepal Width",
      ylab="Sepal length")
+```
 ########################################Cleaning data ##############################################
 
-# The problem with the IRIS data set is that it is neat and tidy.
-# Lets look at some real world data
+The problem with the IRIS data set is that it is neat and tidy. In fact most of the datasets that are
+available on R through the function data() are clean. However almost all real world data is unclean, has many missing values, spaces for values or othr junk characters. We must first  'clean' the data before applying any visualization or Machine Learning models on the data. So I would like to present a small sample data
+which has many of the issues that we will encounter in real data. 
+
 
 
 # The following call does not convert strings in the data frame as factors
