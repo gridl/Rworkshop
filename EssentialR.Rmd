@@ -791,41 +791,64 @@ a <- tendulkar$Runs != "DNB"
 a
 ```
 Now subset all rows based on the logical vector 'a', leave out the column vector while subsetting indicating that all columns must be selected.
-
+```{r}
 tendulkar <- tendulkar[a,]
 dim(tendulkar)
+```
 
-# Remove rows with 'TDNB'
+b) Next remove all rows with TDNB (Team Did Not bat) and assign the result to a logical vector 'c'. Use 'c' to subset the tendulkar dataframe
+
+```{r}
 c <- tendulkar$Runs != "TDNB"
+c
 tendulkar <- tendulkar[c,]
+```
 
-# Remove rows with absent
+c) Further remove all rows which have 'absent' in the Runs column and subset as before
+```{r}
 d <- tendulkar$Runs != "absent"
 tendulkar <- tendulkar[d,]
-dim(tendulkar)
+```
 
-# Remove the "* indicating not out
+Check the size of the tendulkar dataframe
+```{r}
+dim(tendulkar)
+```
+
+d) Finally remove the "*"" indicating 'not out' 
+```{r}
 tendulkar$Runs <- gsub("\\*","",tendulkar$Runs)
-View(tendulkar)
-dim(tendulkar)
+```
 
-# Another useful function for cleaning data is complete.cases
+Check the size of the cleaned tendulkar dataframe
+```{r}
+dim(tendulkar)
+```
+
+Another useful function for cleaning data is complete.cases. Check the documentation on
+'complete.cases()' 
+```{r}
 ?complete.cases
-# Check if all rows are complete and have values in all columns
+```
+
+e) Check if all rows are complete and have values in all columns and assign result to logical vector 'c'. Use
+this logical vector to subset the dataframe to remove incomplete rows
+```{r}
 c <- complete.cases(tendulkar)
 c
-# Check the number of rows in th dataframe
-length(c)
-
-# Determine the number of TRUE's
-sum(c)
-
 #Subset the rows which are complete
 tendulkar <- tendulkar[c,]
-dim(tendulkar)
+```
 
-# Now the data is clean
+Check the size of the tendulkar dataframe after all the above steps (a) to (e) for cleaning
+```{r}
+dim(tendulkar)
+```
+
+Now the data is clean. You can use View(tendulkar) in RStudio to ensure that data is indeed clean
+```{r}
 head(tendulkar,10)
+```
 
 
 ########################################Plotting#############################################
