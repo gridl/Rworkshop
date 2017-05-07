@@ -850,16 +850,27 @@ Now the data is clean. You can use View(tendulkar) in RStudio to ensure that dat
 head(tendulkar,10)
 ```
 
-
+We can now do any sort of data analysis on the clean data using the many R packages that R comes with.
 ########################################Plotting#############################################
 ### Base plot
-# Do some base plotting
+R, by default,  comes with some plotting ability. This is known as 'base plot'. Base plotting
+is easy to do. In the plot below, the function plot(x,y)
+```{r}
 plot(tendulkar$BF,tendulkar$Runs)
-#Add title and x and y labels
+```
+
+To add a title and x and y labels we need to invoke the plot function with additional parameters viz. 'xlab' for the X-axis label, 'ylab' for the Y-Axis label and 'main' to specify the plot titile
+
+``` {r}
 plot(tendulkar$BF, tendulkar$Runs,pch=18, main="Tendulkar Runs scored vs Balls Faced",
      xlab="Balls Faced", ylab='Runs')
+```
 
+We can also fit a linear regression model between the Runs scored and the Balls faced by Tendulkar with the 'lm' call. To know more about 'ln' use ?lm
+```{r}
 ?lm
+
+```
 
 # Compute and  plot a linear regression lime
 # Here Runs = a0 + a1 * BF
