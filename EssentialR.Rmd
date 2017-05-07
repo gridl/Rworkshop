@@ -714,7 +714,9 @@ Make a regular scatter plot using the R base plotting function plot(x,y)
 plot(iris$widthOfSepal,iris$lengthOfSepal)
 ```
 
-To this plot add the x-axis & y-axis labels along with the title of the plot
+To this plot add the x-axis & y-axis labels along with the title of the plot use xlab, ylab and main parameters
+
+
 ```{r}
 plot(iris$widthOfSepal,iris$lengthOfSepal,
      main="Iris - Length of Sepal vs Width of Sepal", xlab="Sepal Width",
@@ -726,30 +728,70 @@ The problem with the IRIS data set is that it is neat and tidy. In fact most of 
 available on R through the function data() are clean. However almost all real world data is unclean, has many missing values, spaces for values or othr junk characters. We must first  'clean' the data before applying any visualization or Machine Learning models on the data. So I would like to present a small sample data
 which has many of the issues that we will encounter in real data. 
 
+The following call to read.csv() does not convert strings in the data frame as factors which is
+specified in the stringAsFactors=FALSE. Further the argument 'na.strings' specified which characters need to
+be considered as NA for e.g. we could specific na.strings=c(NA,"-"," ",""). This means that all values
+in the data frame NA, "-", " " and "" will be substituted with NA in the dataframe that is read into memory.
+For more details check the help of read.csv 
+Check the help of read.csv using ?read.csv
 
-
-# The following call does not convert strings in the data frame as factors
-# Also remove records which do not have values 'na.strings" where the
-# NA (not available) strings can be "NA" or "-"
-#Check the help of read.csv
-?read.csv
+# Read the tendulkar dataframe
+```{r}
 tendulkar= read.csv("tendulkar.csv",stringsAsFactors = FALSE,na.strings=c(NA,"-"))
+```
+
+The 'summary' is a useful command for describing the overall content and structure of a dataframe
+```{r}
 summary(tendulkar)
+```
+
+The 'str' command is another command to get an overall description of the dataframe. The 'str' command lists
+all the columns, the column type and also displays a representative sample of the column values. I find the 'str' command more useful than the 'summary' command
+```[r]
 str(tendulkar)
+```
+
+Check the names of the columns for the dataframe tendulkar
+```{r}
 colnames(tendulkar)
+```
+
+Also check the dimensions of the tendulkar dataframe. It can be seen that the dataframe is 
+```{}
 dim(tendulkar)
+```
 
 #Display top 5 and bottom 5 rows
+```{r}
 head(tendulkar)
 tail(tendulkar)
+```
 
+As mentioned before if we want to check the class of all columns we can use the sapply() function to
+get the types of all columns
+```{r}
 sapply(tendulkar,class)
+```
+
 
 # View the data frame
+To view a dataframe in RStudio you can use the View(df)
+```{r}
 View(tendulkar)
+```
 
 # Real world data will require a lot of cleaning before you can use it
+
+The following list of commands are used to clean the tendulkar dataframe. In real world data there will be  a need to clean up data in a variety of ways depending on how unclean the data is. There could some columns or
+rows with completly or partially missing values. There could be elements where there are garbage characters and so on. The commands that will be needed will vary but at the end of the cleaning process, all columns should be of the same type. Here are the commands to clean tendulkar dataframe
+
+a) Remove all rows which have DNB (Did Not Bat) in the 'Runs' column, or in other words select rows which do not have the 'DNB' value. This is given by the '!=' or not 'equal to' logical operator. Assign the result to a logical vector a
+```{r}
 a <- tendulkar$Runs != "DNB"
+a
+```
+Now subset all rows based on the logical vector 'a', leave out the column vector while subsetting indicating that all columns must be selected.
+
 tendulkar <- tendulkar[a,]
 dim(tendulkar)
 
